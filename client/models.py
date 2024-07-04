@@ -32,9 +32,5 @@ class Client(models.Model):
         cipher_suite = Fernet(encryption_key)
         self.encrypted_api_key = cipher_suite.encrypt(value.encode())
 
-    def save(self, *args, **kwargs):
-        # Additional logic before saving if needed
-        super().save(*args, **kwargs)
-
     def __str__(self) -> str:
         return f"{self.user.username} - {self.name}"

@@ -29,7 +29,6 @@ api = NinjaAPI(
 )
 
 # Instantiate a router object:
-# router = Router(throttle=[AnonRateThrottle("10/s"), UserRateThrottle("10/m")])
 router = Router()
 
 

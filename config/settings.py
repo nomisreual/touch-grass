@@ -27,12 +27,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-btu78y)81cadl_)x@md&f-)b1@q+2abh6#1zv-)wq*d=5tl^s1"
+SECRET_KEY = SECRET_KEY = (
+    os.getenv("SECRET_KEY") or "django-insecure-btu78y)81cadl_)x@md&f-)b1@q+2abh6#1zv-)wq*d=5tl^s1"
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.getenv("DEBUG") == "True":
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+HOST = os.getenv("HOST", "localhost")
+if HOST:
+    ALLOWED_HOSTS = [HOST]
+else:
+    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -154,7 +164,6 @@ STATICFILES_DIRS = [
 ]
 
 if not DEBUG:
-    # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     STATIC_ROOT = Path("/var/lib/touch-grass.dev/static")
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
