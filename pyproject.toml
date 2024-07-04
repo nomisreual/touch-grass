@@ -21,6 +21,7 @@ django-ninja = "^1.2.0"
 [tool.poetry.group.development.dependencies]
 ipython = "^8.25.0"
 django-extensions = "^3.2.3"
+pre-commit = "^3.7.1"
 
 [build-system]
 requires = ["poetry-core"]
