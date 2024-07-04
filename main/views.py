@@ -9,4 +9,5 @@ def index(request):
     context = {
         "api_key": client.key,
     }
+    print(client.key)
     return render(request, "main/index.html", context=context)
