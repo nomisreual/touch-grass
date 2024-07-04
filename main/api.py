@@ -4,7 +4,6 @@ from client.models import Client
 from main.models import Post
 from main.schema import PostOutSchema
 from typing import List
-from ninja.throttling import AnonRateThrottle, UserRateThrottle
 
 api = NinjaAPI()
 
