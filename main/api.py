@@ -9,14 +9,14 @@ api = NinjaAPI()
 
 
 class ApiKey(APIKeyHeader):
-    param_name = "X-API-Key"
+	param_name = "X-API-Key"
 
-    def authenticate(self, request, key):
-        user_id = request.headers.get("USER-ID")
-        client = Client.objects.get(user__id=user_id)
-        api_key = client.key
-        if key == api_key:
-            return True
+	def authenticate(self, request, key):
+		user_id = request.headers.get("USER-ID")
+		client = Client.objects.get(user__id=user_id)
+		api_key = client.key
+		if key == api_key:
+			return True
 
 
 # Instantiate an ApiKey object:
@@ -24,8 +24,8 @@ api_key = ApiKey()
 
 # Instantiate a NinjaAPI object:
 api = NinjaAPI(
-    title="Blog Posts API",
-    version="0.1.0",
+	title="Blog Posts API",
+	version="0.1.0",
 )
 
 # Instantiate a router object:
@@ -35,7 +35,7 @@ router = Router()
 
 @router.get("/post", response={200: List[PostOutSchema]}, auth=api_key)
 def get_users(request):
-    return Post.objects.all()
+	return Post.objects.all()
 
 
 api.add_router("", router)
