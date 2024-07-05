@@ -38,6 +38,10 @@ if (os.getenv("DEBUG") == "True") or (os.getenv("GITHUB_WORKFLOW") is not None):
 else:
     DEBUG = False
 
+# CSRF
+CSRF_COOKIE_SECURE = not DEBUG
+CSRF_USE_SESSIONS = not DEBUG
+
 # Read the allowed hosts from the environment variable and split into a list
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
 
