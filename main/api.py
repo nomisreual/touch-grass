@@ -13,7 +13,12 @@ class ApiKey(APIKeyHeader):
 
     def authenticate(self, request, key):
         user_id = request.headers.get("USER-ID")
-        client = Client.objects.get(user__id=user_id)
+        if user_id is None:
+            return None
+        try:
+            client = Client.objects.get(user__id=user_id)
+        except Client.DoesNotExist:
+            return None
         api_key = client.key
         if key == api_key:
             return True

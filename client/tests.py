@@ -2,7 +2,6 @@ from django.test import TestCase
 
 from django.contrib.auth.models import User
 from client.models import Client
-import os
 from unittest.mock import patch
 
 
@@ -69,3 +68,12 @@ class TestClient(TestCase):
 
         with self.assertRaises(ValueError):
             self.client.key
+
+    def test_encrypted_key(self):
+        """The key should be encrypted when set."""
+        # Test Key:
+        api_key = "test_api_key"
+        # Assign the key:
+        self.client.key = api_key
+        # The encrypted key should not match the original key:
+        self.assertNotEqual(self.client.encrypted_api_key, api_key.encode())
