@@ -33,7 +33,7 @@ SECRET_KEY = SECRET_KEY = (
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.getenv("DEBUG") == "True":
+if (os.getenv("DEBUG") == "True") or (os.getenv("GITHUB_WORKFLOW") is not None):
     DEBUG = True
 else:
     DEBUG = False
