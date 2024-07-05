@@ -97,31 +97,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-if DEBUG:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME_DEV"),
-            "USER": os.getenv("DB_USER_DEV"),
-            "PASSWORD": os.getenv("DB_PASSWORD_DEV"),
-            "HOST": os.getenv("DB_HOST_DEV"),
-            "PORT": os.getenv("DB_PORT_DEV"),
-        }
-    }
-else:
-    DB_USER = os.getenv("DB_USER")
-    DB_PASSWORD = os.getenv("DB_PASSWORD")
-    DB_NAME = os.getenv("DB_NAME")
-    DB_PORT = os.getenv("DB_PORT")
-    DB_HOST = os.getenv("DB_HOST")
-
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
-            conn_max_age=600,
-        )
-    }
-
 if os.getenv("GITHUB_WORKFLOW"):
     DATABASES = {
         "default": {
@@ -133,6 +108,32 @@ if os.getenv("GITHUB_WORKFLOW"):
             "PORT": "5432",
         }
     }
+else:
+    if DEBUG:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("DB_NAME_DEV"),
+                "USER": os.getenv("DB_USER_DEV"),
+                "PASSWORD": os.getenv("DB_PASSWORD_DEV"),
+                "HOST": os.getenv("DB_HOST_DEV"),
+                "PORT": os.getenv("DB_PORT_DEV"),
+            }
+        }
+    else:
+        DB_USER = os.getenv("DB_USER")
+        DB_PASSWORD = os.getenv("DB_PASSWORD")
+        DB_NAME = os.getenv("DB_NAME")
+        DB_PORT = os.getenv("DB_PORT")
+        DB_HOST = os.getenv("DB_HOST")
+
+        DATABASES = {
+            "default": dj_database_url.config(
+                default=f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+                conn_max_age=600,
+            )
+        }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
