@@ -38,11 +38,12 @@ if (os.getenv("DEBUG") == "True") or (os.getenv("GITHUB_WORKFLOW") is not None):
 else:
     DEBUG = False
 
-HOST = os.getenv("HOST", "localhost")
-if HOST:
-    ALLOWED_HOSTS = [HOST]
-else:
-    ALLOWED_HOSTS = []
+# Read the allowed hosts from the environment variable and split into a list
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
+
+# Ensure localhost is allowed for development purposes
+if "localhost" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append("localhost")
 
 
 # Application definition
