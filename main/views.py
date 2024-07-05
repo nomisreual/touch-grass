@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from client.models import Client
 
 
 def index(request):

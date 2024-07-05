@@ -5,7 +5,6 @@ from main.models import Post
 from client.models import Client
 from main.api import router
 from ninja.testing import TestClient
-from ninja.errors import AuthenticationError
 
 
 class TestPost(TestCase):
