@@ -27,12 +27,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-btu78y)81cadl_)x@md&f-)b1@q+2abh6#1zv-)wq*d=5tl^s1"
+SECRET_KEY = SECRET_KEY = (
+    os.getenv("SECRET_KEY") or "django-insecure-btu78y)81cadl_)x@md&f-)b1@q+2abh6#1zv-)wq*d=5tl^s1"
+)
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+if (os.getenv("DEBUG") == "True") or (os.getenv("GITHUB_WORKFLOW") is not None):
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+HOST = os.getenv("HOST", "localhost")
+if HOST:
+    ALLOWED_HOSTS = [HOST]
+else:
+    ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -45,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "main.apps.MainConfig",
+    "client.apps.ClientConfig",
 ]
 
 if DEBUG:
@@ -86,30 +97,42 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-if DEBUG:
+if os.getenv("GITHUB_WORKFLOW"):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv("DB_NAME_DEV"),
-            "USER": os.getenv("DB_USER_DEV"),
-            "PASSWORD": os.getenv("DB_PASSWORD_DEV"),
-            "HOST": os.getenv("DB_HOST_DEV"),
-            "PORT": os.getenv("DB_PORT_DEV"),
+            "NAME": "github_actions",
+            "USER": "postgres",
+            "PASSWORD": "postgres",
+            "HOST": "127.0.0.1",
+            "PORT": "5432",
         }
     }
 else:
-    DB_USER = os.getenv("DB_USER")
-    DB_PASSWORD = os.getenv("DB_PASSWORD")
-    DB_NAME = os.getenv("DB_NAME")
-    DB_PORT = os.getenv("DB_PORT")
-    DB_HOST = os.getenv("DB_HOST")
+    if DEBUG:
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv("DB_NAME_DEV"),
+                "USER": os.getenv("DB_USER_DEV"),
+                "PASSWORD": os.getenv("DB_PASSWORD_DEV"),
+                "HOST": os.getenv("DB_HOST_DEV"),
+                "PORT": os.getenv("DB_PORT_DEV"),
+            }
+        }
+    else:
+        DB_USER = os.getenv("DB_USER")
+        DB_PASSWORD = os.getenv("DB_PASSWORD")
+        DB_NAME = os.getenv("DB_NAME")
+        DB_PORT = os.getenv("DB_PORT")
+        DB_HOST = os.getenv("DB_HOST")
 
-    DATABASES = {
-        "default": dj_database_url.config(
-            default=f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
-            conn_max_age=600,
-        )
-    }
+        DATABASES = {
+            "default": dj_database_url.config(
+                default=f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+                conn_max_age=600,
+            )
+        }
 
 
 # Password validation
@@ -153,7 +176,6 @@ STATICFILES_DIRS = [
 ]
 
 if not DEBUG:
-    # STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     STATIC_ROOT = Path("/var/lib/touch-grass.dev/static")
     STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 

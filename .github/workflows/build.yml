@@ -1,0 +1,19 @@
+name: Docker Image CI
+
+on: workflow_dispatch
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag nomisreual/touch-grass:latest 
+      working-directory: .
+    - name: publish
+      run: |
+        docker login -u nomisreual -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push nomisreual/touch-grass:latest
