@@ -67,8 +67,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "fontawesomefree",
     "main.apps.MainConfig",
     "client.apps.ClientConfig",
+    "contact.apps.ContactConfig",
 ]
 
 if DEBUG:
@@ -165,6 +167,15 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+# Email settings
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.yourserver.com"
+EMAIL_PORT = "<your-server-port>"
+EMAIL_HOST_USER = "your@djangoapp.com"
+EMAIL_HOST_PASSWORD = "your-email account-password"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 
 # Internationalization
