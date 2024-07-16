@@ -112,9 +112,9 @@ class TestMainViews(TestCase):
         agent = Agent()
         response = agent.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context.get("title"), "Welcome")
+        self.assertEqual(response.context.get("title"), "Home")
         self.assertTemplateUsed(response, "main/index.html")
         self.assertInHTML(
-            "<h1>This page is under construction.</h1>",
+            "<h4>This page is under construction.</h4>",
             response.content.decode(),
         )
