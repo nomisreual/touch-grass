@@ -4,7 +4,11 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" >
+    <link rel="shortcut icon"
+          type="image/png"
+          href="{% static 'images/favicon.ico' %}">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
     {% if title %}
       <title>{{ title }}</title>
     {% else %}
@@ -12,6 +16,28 @@
     {% endif %}
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <header class="container">
+      <nav>
+        <ul>
+          <li>
+            <strong>touch-grass.dev</strong>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href="#">Home</a>
+          </li>
+          <li>
+            <a href="#">Blog</a>
+          </li>
+          <li>
+            <a href="#">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="container">
+      {% block content %}{% endblock %}
+    </main>
   </body>
 </html>
