@@ -4,11 +4,21 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
     <link rel="shortcut icon"
           type="image/png"
-          href="{% static 'images/favicon.ico' %}">
+          href="{% static 'images/favicon.ico' %}" />
+
+    <!-- Pico CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+
+    <!-- Font Awesome -->
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+
     {% if title %}
       <title>{{ title }}</title>
     {% else %}
@@ -31,7 +41,7 @@
             <a href="{% url 'main:index' %}">Blog</a>
           </li>
           <li>
-            <a href="{% url 'main:index' %}">Contact</a>
+            <a href="{% url 'contact:contact' %}">Contact</a>
           </li>
         </ul>
       </nav>
@@ -39,5 +49,10 @@
     <main class="container">
       {% block content %}{% endblock %}
     </main>
+    <footer class="container">
+      <p>
+        <i class="fa-regular fa-copyright"></i> Simon Antonius Lauer
+      </p>
+    </footer>
   </body>
 </html>
